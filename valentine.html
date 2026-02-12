@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#667eea">
+    <title>San Valentino 💙 - Giochi dell'Amore</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                padding: 40px;
+                border-radius: 30px;
+            }
+            body {
+                padding: 20px;
+            }
+        }
+
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            opacity: 0.2;
+            animation: float 6s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        h1 {
+            text-align: center;
+            color: #d63384;
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+            }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 20px;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        
+        @media (min-width: 768px) {
+            .subtitle {
+                margin-bottom: 30px;
+                font-size: 1em;
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d, #c06c84);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px 5px;
+            font-weight: bold;
+            min-height: 48px;
+            touch-action: manipulation;
+        }
+        
+        @media (min-width: 768px) {
+            .btn {
+                padding: 15px 40px;
+                font-size: 1.1em;
+                margin: 10px;
+            }
+        }
+
+        .btn:hover, .btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 87, 108, 0.3);
+        }
+
+        .game-container {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+        }
+        
+        @media (min-width: 768px) {
+            .game-container {
+                padding: 30px;
+                border-radius: 20px;
+                margin: 20px 0;
+            }
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+            max-width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .memory-grid {
+                gap: 15px;
+                margin: 20px 0;
+            }
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            transition: transform 0.3s;
+            position: relative;
+            min-height: 60px;
+            touch-action: manipulation;
+        }
+        
+        @media (min-width: 768px) {
+            .memory-card {
+                border-radius: 15px;
+                font-size: 2em;
+            }
+        }
+
+        .memory-card:active {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            border: 3px solid #ff69b4;
+        }
+
+        .memory-card.matched {
+            background: #d4edda;
+            cursor: default;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #dee2e6;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            touch-action: manipulation;
+        }
+        
+        @media (min-width: 768px) {
+            .quiz-option {
+                border-radius: 15px;
+                font-size: 1.1em;
+            }
+        }
+
+        .quiz-option:active {
+            background: #ffe6f0;
+            border-color: #ff69b4;
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .quiz-option.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .love-calculator {
+            text-align: center;
+        }
+
+        .name-input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ff69b4;
+            border-radius: 12px;
+            font-size: 1em;
+            text-align: center;
+            max-width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .name-input {
+                width: 80%;
+                padding: 15px;
+                border-radius: 15px;
+                font-size: 1.1em;
+            }
+        }
+
+        .percentage-display {
+            font-size: 3.5em;
+            color: #d63384;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (min-width: 768px) {
+            .percentage-display {
+                font-size: 5em;
+                margin: 30px 0;
+            }
+        }
+
+        .final-prize {
+            text-align: center;
+            padding: 20px 10px;
+        }
+        
+        @media (min-width: 768px) {
+            .final-prize {
+                padding: 40px 20px;
+            }
+        }
+
+        .final-prize h2 {
+            color: #d63384;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .final-prize h2 {
+                font-size: 2.5em;
+                margin-bottom: 20px;
+            }
+        }
+
+        .prize-message {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #495057;
+            margin: 15px 0;
+        }
+        
+        @media (min-width: 768px) {
+            .prize-message {
+                font-size: 1.3em;
+                line-height: 1.8;
+                margin: 20px 0;
+            }
+        }
+
+        .game-title {
+            color: #d63384;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        @media (min-width: 768px) {
+            .game-title {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+        }
+
+        .game-instructions {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        
+        @media (min-width: 768px) {
+            .game-instructions {
+                margin-bottom: 20px;
+                font-size: 1.1em;
+            }
+        }
+
+        .hint {
+            text-align: center;
+            color: #ff69b4;
+            margin: 10px 0;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+        
+        @media (min-width: 768px) {
+            .hint {
+                margin: 15px 0;
+                font-size: 1em;
+            }
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            color: #d63384;
+            font-weight: bold;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: 30px auto;
+        }
+
+        .slide {
+            display: none;
+            text-align: center;
+        }
+
+        .slide.active-slide {
+            display: block;
+            animation: slideIn 1s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .slide img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+        }
+        
+        @media (min-width: 768px) {
+            .slide img {
+                max-height: 500px;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Tree of Life - Enhanced */
+        .tree-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(180deg, #87CEEB 0%, #E6F3FF 50%, #90EE90 100%);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .tree-container {
+                margin: 40px 0;
+                padding: 40px;
+                border-radius: 20px;
+            }
+        }
+
+        .tree-container::before {
+            content: '✨';
+            position: absolute;
+            font-size: 1.5em;
+            top: 10px;
+            left: 10px;
+            animation: twinkle 2s infinite;
+        }
+        
+        @media (min-width: 768px) {
+            .tree-container::before {
+                font-size: 2em;
+                top: 20px;
+                left: 20px;
+            }
+        }
+
+        .tree-container::after {
+            content: '✨';
+            position: absolute;
+            font-size: 1.5em;
+            top: 10px;
+            right: 10px;
+            animation: twinkle 2s infinite 1s;
+        }
+        
+        @media (min-width: 768px) {
+            .tree-container::after {
+                font-size: 2em;
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .tree-svg {
+            width: 100%;
+            max-width: 350px;
+            height: 400px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        @media (min-width: 768px) {
+            .tree-svg {
+                max-width: 500px;
+                height: 600px;
+            }
+        }
+
+        .quote-card {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border-left: 4px solid #d63384;
+            opacity: 0;
+            animation: fadeInQuote 1s forwards;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (min-width: 768px) {
+            .quote-card {
+                margin: 30px 0;
+                padding: 25px;
+                border-radius: 20px;
+                border-left: 5px solid #d63384;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: #495057;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        @media (min-width: 768px) {
+            .quote-text {
+                font-size: 1.2em;
+                line-height: 1.8;
+                margin-bottom: 15px;
+            }
+        }
+
+        .quote-author {
+            color: #d63384;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-top: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .quote-author {
+                font-size: 0.9em;
+                margin-top: 10px;
+            }
+        }
+
+        .music-player {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        @media (min-width: 768px) {
+            .music-player {
+                padding: 20px;
+                border-radius: 15px;
+                margin: 20px 0;
+            }
+        }
+
+        .music-player-title {
+            font-size: 1em;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+        
+        @media (min-width: 768px) {
+            .music-player-title {
+                font-size: 1.1em;
+                margin-bottom: 15px;
+            }
+        }
+
+        .music-placeholder {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+        }
+        
+        @media (min-width: 768px) {
+            .music-placeholder {
+                padding: 15px;
+                border-radius: 10px;
+                font-size: 0.9em;
+            }
+        }
+
+        @keyframes fadeInQuote {
+            to { opacity: 1; }
+        }
+
+        .branch {
+            stroke: #8b4513;
+            stroke-width: 4;
+            fill: none;
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            animation: drawBranch 3s forwards;
+            stroke-linecap: round;
+        }
+
+        @keyframes drawBranch {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .leaf {
+            opacity: 0;
+            animation: growLeaf 1s forwards;
+        }
+
+        @keyframes growLeaf {
+            0% { opacity: 0; transform: scale(0); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .fruit {
+            opacity: 0;
+            animation: growFruit 1.5s forwards;
+        }
+
+        @keyframes growFruit {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            60% { transform: scale(1.2) rotate(10deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .root {
+            stroke: #654321;
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 150;
+            stroke-dashoffset: 150;
+            animation: drawRoot 2s forwards;
+        }
+
+        @keyframes drawRoot {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hearts-bg">
+            <div class="heart" style="left: 10%; top: 10%; font-size: 2em;">💙</div>
+            <div class="heart" style="left: 80%; top: 20%; font-size: 1.5em; animation-delay: 1s;">💙</div>
+            <div class="heart" style="left: 50%; top: 70%; font-size: 2.5em; animation-delay: 2s;">💙</div>
+            <div class="heart" style="left: 20%; top: 60%; font-size: 1.8em; animation-delay: 0.5s;">💙</div>
+        </div>
+
+        <h1>💙 Giochi dell'Amore 💙</h1>
+        <p class="subtitle">Un percorso romantico verso il tuo premio speciale</p>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0/4</div>
+        </div>
+
+        <!-- Schermata iniziale -->
+        <div class="screen active" id="welcomeScreen">
+            <div class="game-container">
+                <h2 style="text-align: center; color: #d63384; margin-bottom: 20px;">Benvenuto/a! �</h2>
+                <p style="text-align: center; font-size: 1.2em; line-height: 1.8; color: #495057;">
+                    Preparati a un'avventura romantica! Supera 4 giochi divertenti per scoprire il tuo premio finale speciale.
+                    Ogni gioco completato ti avvicinerà sempre di più alla sorpresa che ti aspetta! 🎁
+                </p>
+                <div class="center" style="margin-top: 30px;">
+                    <button class="btn" onclick="startGames()">Inizia l'Avventura! �</button>
+                    <button class="btn" onclick="skipToEnd()" style="background: #ff69b4; margin-top: 15px;">Salta al Finale →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gioco 1: Memory -->
+        <div class="screen" id="game1Screen">
+            <h2 class="game-title">Gioco 1: Memory dell'Amore �</h2>
+            <p class="game-instructions">Trova tutte le coppie di simboli d'amore!</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="moves">0</div>
+                    <div>Mosse</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="matches">0/8</div>
+                    <div>Coppie</div>
+                </div>
+            </div>
+            <div class="game-container">
+                <div class="memory-grid" id="memoryGrid"></div>
+            </div>
+        </div>
+
+        <!-- Gioco 2: Quiz -->
+        <div class="screen" id="game2Screen">
+            <h2 class="game-title">Gioco 2: Quiz Romantico �</h2>
+            <p class="game-instructions">Rispondi correttamente a 3 domande sull'amore!</p>
+            <div class="game-container">
+                <div id="quizContainer"></div>
+            </div>
+        </div>
+
+        <!-- Gioco 3: Love Calculator -->
+        <div class="screen" id="game3Screen">
+            <h2 class="game-title">Gioco 3: Calcolatore d'Amore �</h2>
+            <p class="game-instructions">Scopri la percentuale di compatibilità!</p>
+            <div class="game-container love-calculator">
+                <input type="text" class="name-input" id="name1" placeholder="Il tuo nome">
+                <div style="font-size: 2em; color: #d63384; margin: 10px 0;">+</div>
+                <input type="text" class="name-input" id="name2" placeholder="Nome del/della partner">
+                <br>
+                <button class="btn" onclick="calculateLove()" style="margin-top: 20px;">Calcola l'Amore! �</button>
+                <div id="loveResult" style="display: none; margin-top: 20px;">
+                    <div class="percentage-display" id="percentage"></div>
+                    <p style="font-size: 1.3em; color: #495057;">Compatibilità perfetta! 💙</p>
+                    <button class="btn" onclick="nextGame(3)">Continua →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gioco 4: Indovina la parola -->
+        <div class="screen" id="game4Screen">
+            <h2 class="game-title">Gioco 4: Indovina la Frase 💬</h2>
+            <p class="game-instructions">Indovina la frase romantica segreta!</p>
+            <p class="hint">💡 Suggerimento: Come voglio stare con te...</p>
+            <div class="game-container">
+                <div id="wordDisplay" style="text-align: center; font-size: 1.8em; margin: 20px 0; letter-spacing: 4px; word-break: break-all;"></div>
+                <div id="letterButtons" style="text-align: center; margin: 15px 0;"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <div class="stat-item">
+                        <div class="stat-value" id="attempts">6</div>
+                        <div>Tentativi rimasti</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schermata finale -->
+        <div class="screen" id="finalScreen">
+            <div class="final-prize">
+                <h2>🎉 Congratulazioni! 🎉</h2>
+                <p class="prize-message">
+                    Hai completato tutti i giochi dell'amore con successo! �
+                    <br>
+                    Ecco il tuo premio speciale...
+                </p>
+
+                <!-- Tree of Life -->
+                <div class="tree-container">
+                    <h3 style="text-align: center; color: #2d5016; margin-bottom: 20px; font-size: 1.5em;">🌳 L'Albero della Nostra Vita 🌳</h3>
+                    <svg class="tree-svg" viewBox="0 0 500 600" id="treeSvg">
+                        <!-- Roots -->
+                        <path class="root" d="M 250 550 Q 200 560 150 570" style="animation-delay: 0s;"/>
+                        <path class="root" d="M 250 550 Q 300 560 350 570" style="animation-delay: 0.2s;"/>
+                        <path class="root" d="M 250 550 Q 220 565 180 575" style="animation-delay: 0.4s;"/>
+                        <path class="root" d="M 250 550 Q 280 565 320 575" style="animation-delay: 0.6s;"/>
+                        
+                        <!-- Main Trunk -->
+                        <path class="branch" d="M 250 550 L 250 350" style="animation-delay: 1s; stroke-width: 8;"/>
+                        
+                        <!-- Main branches -->
+                        <path class="branch" d="M 250 350 Q 180 320 130 280" style="animation-delay: 2s; stroke-width: 6;"/>
+                        <path class="branch" d="M 250 350 Q 320 320 370 280" style="animation-delay: 2s; stroke-width: 6;"/>
+                        <path class="branch" d="M 250 350 L 250 250" style="animation-delay: 2.5s; stroke-width: 6;"/>
+                        
+                        <!-- Secondary branches -->
+                        <path class="branch" d="M 130 280 Q 100 250 80 210" style="animation-delay: 3s; stroke-width: 4;"/>
+                        <path class="branch" d="M 130 280 Q 140 240 150 200" style="animation-delay: 3.2s; stroke-width: 4;"/>
+                        <path class="branch" d="M 370 280 Q 400 250 420 210" style="animation-delay: 3s; stroke-width: 4;"/>
+                        <path class="branch" d="M 370 280 Q 360 240 350 200" style="animation-delay: 3.2s; stroke-width: 4;"/>
+                        <path class="branch" d="M 250 250 Q 200 220 170 180" style="animation-delay: 3.5s; stroke-width: 5;"/>
+                        <path class="branch" d="M 250 250 Q 300 220 330 180" style="animation-delay: 3.5s; stroke-width: 5;"/>
+                        <path class="branch" d="M 250 250 L 250 150" style="animation-delay: 4s; stroke-width: 5;"/>
+                        
+                        <!-- Tertiary branches -->
+                        <path class="branch" d="M 170 180 Q 140 160 120 130" style="animation-delay: 4.5s; stroke-width: 3;"/>
+                        <path class="branch" d="M 330 180 Q 360 160 380 130" style="animation-delay: 4.5s; stroke-width: 3;"/>
+                        <path class="branch" d="M 250 150 Q 220 130 200 100" style="animation-delay: 5s; stroke-width: 4;"/>
+                        <path class="branch" d="M 250 150 Q 280 130 300 100" style="animation-delay: 5s; stroke-width: 4;"/>
+                        
+                        <!-- Leaves - Large clusters -->
+                        <circle class="leaf" cx="80" cy="210" r="25" fill="#2d5016" style="animation-delay: 5.5s;"/>
+                        <circle class="leaf" cx="75" cy="220" r="20" fill="#3a6b1f" style="animation-delay: 5.6s;"/>
+                        <circle class="leaf" cx="90" cy="215" r="22" fill="#4a8029" style="animation-delay: 5.7s;"/>
+                        
+                        <circle class="leaf" cx="420" cy="210" r="25" fill="#2d5016" style="animation-delay: 5.5s;"/>
+                        <circle class="leaf" cx="425" cy="220" r="20" fill="#3a6b1f" style="animation-delay: 5.6s;"/>
+                        <circle class="leaf" cx="410" cy="215" r="22" fill="#4a8029" style="animation-delay: 5.7s;"/>
+                        
+                        <circle class="leaf" cx="150" cy="200" r="23" fill="#2d5016" style="animation-delay: 5.8s;"/>
+                        <circle class="leaf" cx="145" cy="210" r="18" fill="#3a6b1f" style="animation-delay: 5.9s;"/>
+                        
+                        <circle class="leaf" cx="350" cy="200" r="23" fill="#2d5016" style="animation-delay: 5.8s;"/>
+                        <circle class="leaf" cx="355" cy="210" r="18" fill="#3a6b1f" style="animation-delay: 5.9s;"/>
+                        
+                        <circle class="leaf" cx="120" cy="130" r="20" fill="#2d5016" style="animation-delay: 6s;"/>
+                        <circle class="leaf" cx="125" cy="140" r="17" fill="#3a6b1f" style="animation-delay: 6.1s;"/>
+                        
+                        <circle class="leaf" cx="380" cy="130" r="20" fill="#2d5016" style="animation-delay: 6s;"/>
+                        <circle class="leaf" cx="375" cy="140" r="17" fill="#3a6b1f" style="animation-delay: 6.1s;"/>
+                        
+                        <circle class="leaf" cx="170" cy="180" r="22" fill="#2d5016" style="animation-delay: 6.2s;"/>
+                        <circle class="leaf" cx="175" cy="190" r="18" fill="#3a6b1f" style="animation-delay: 6.3s;"/>
+                        
+                        <circle class="leaf" cx="330" cy="180" r="22" fill="#2d5016" style="animation-delay: 6.2s;"/>
+                        <circle class="leaf" cx="325" cy="190" r="18" fill="#3a6b1f" style="animation-delay: 6.3s;"/>
+                        
+                        <circle class="leaf" cx="200" cy="100" r="24" fill="#2d5016" style="animation-delay: 6.4s;"/>
+                        <circle class="leaf" cx="195" cy="110" r="20" fill="#3a6b1f" style="animation-delay: 6.5s;"/>
+                        <circle class="leaf" cx="205" cy="105" r="21" fill="#4a8029" style="animation-delay: 6.6s;"/>
+                        
+                        <circle class="leaf" cx="300" cy="100" r="24" fill="#2d5016" style="animation-delay: 6.4s;"/>
+                        <circle class="leaf" cx="305" cy="110" r="20" fill="#3a6b1f" style="animation-delay: 6.5s;"/>
+                        <circle class="leaf" cx="295" cy="105" r="21" fill="#4a8029" style="animation-delay: 6.6s;"/>
+                        
+                        <circle class="leaf" cx="250" cy="120" r="26" fill="#2d5016" style="animation-delay: 6.7s;"/>
+                        <circle class="leaf" cx="245" cy="130" r="22" fill="#3a6b1f" style="animation-delay: 6.8s;"/>
+                        <circle class="leaf" cx="255" cy="125" r="23" fill="#4a8029" style="animation-delay: 6.9s;"/>
+                        
+                        <!-- Fruits/Apples -->
+                        <circle class="fruit" cx="100" cy="200" r="12" fill="#dc143c" style="animation-delay: 7s;"/>
+                        <circle class="fruit" cx="400" cy="200" r="12" fill="#dc143c" style="animation-delay: 7.2s;"/>
+                        <circle class="fruit" cx="180" cy="170" r="12" fill="#dc143c" style="animation-delay: 7.4s;"/>
+                        <circle class="fruit" cx="320" cy="170" r="12" fill="#dc143c" style="animation-delay: 7.6s;"/>
+                        <circle class="fruit" cx="210" cy="110" r="12" fill="#dc143c" style="animation-delay: 7.8s;"/>
+                        <circle class="fruit" cx="290" cy="110" r="12" fill="#dc143c" style="animation-delay: 8s;"/>
+                        
+                        <!-- Crown/Top heart -->
+                        <text x="250" y="90" font-size="40" text-anchor="middle" fill="#0099ff" class="fruit" style="animation-delay: 8.5s;">💙</text>
+                        
+                        <!-- Birds -->
+                        <text x="50" y="180" font-size="25" text-anchor="middle" fill="#000" class="fruit" style="animation-delay: 9s;">🕊️</text>
+                        <text x="450" y="180" font-size="25" text-anchor="middle" fill="#000" class="fruit" style="animation-delay: 9.2s;">🕊️</text>
+                    </svg>
+                </div>
+
+                <!-- Quote Cards with Music Players -->
+                <div id="quotesContainer"></div>
+
+                <!-- Slideshow -->
+                <div class="slideshow-container">
+                    <div class="slide active-slide">
+                        <img src="photo1.jpeg" alt="Momento speciale">
+                    </div>
+                    <div class="slide">
+                        <img src="photo2.jpeg" alt="Momento speciale">
+                    </div>
+                    <div class="slide">
+                        <img src="photo3.jpeg" alt="Momento speciale">
+                    </div>
+                </div>
+
+                <p class="prize-message" style="margin-top: 30px;">
+                    Ti amo più di quanto le parole possano esprimere! 💙💙💙💙💙
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentGame = 0;
+        let gamesCompleted = 0;
+
+        // Memory Game
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        const symbols = ['❤️', '💕', '💖', '💗', '💝', '💘', '💞', '💓'];
+
+        // Quiz
+        const quizQuestions = [
+            {
+                question: "Qual è la città dell'amore?",
+                options: ["Roma", "Parigi", "Venezia", "Vienna"],
+                correct: 1
+            },
+            {
+                question: "Quale colore simboleggia l'amore?",
+                options: ["Blu", "Verde", "Rosso", "Giallo"],
+                correct: 2
+            },
+            {
+                question: "Quale fiore è il simbolo dell'amore?",
+                options: ["Tulipano", "Rosa", "Giglio", "Orchidea"],
+                correct: 1
+            }
+        ];
+        let currentQuestion = 0;
+        let quizScore = 0;
+
+        // Word game - "PER SEMPRE"
+        const secretWord = "PERSEMPRE";
+        const displayWord = "PER SEMPRE";
+        let guessedLetters = [];
+        let attemptsLeft = 6;
+
+        // Quotes with music info
+        const quotes = [
+            {
+                text: "Mo dove vado? Devo saltare\nE ti sei presa tutto, anche l'anima\nNon so chi è stato, ma sto per sanguinare\nÈ l'ultimo respiro di questa vita",
+                author: "Capo Plaza - Ogni Male"
+            },
+            {
+                text: "Si te ne vaje, me ne vengo cu'tté\nNun me fa male cu mille parole\nComme s'acchiappa 'na stella si cade?\nI' nun 'a trovo cchiù, nun 'a voglio cchiù\nMa sott'ê stelle, stelle, stelle, stelle, stelle\nMe domandaste qual è ch'assumiglia a tte\nNn'ce sta 'na stella, stella, stella, stella, stella\nI' nun 'a trovo cchiù, nun 'a voglio cchiù",
+                author: "Geolier - Stelle"
+            },
+            {
+                text: "E come nel fiore il frutto\nDormi sui miei dolori\nSplendono gli astri metallici e bianchi\nFiore mio\nFiore della mia anima\nSplendono gli astri metallici e bianchi\nFiore mio\nFiore della mia anima",
+                author: "Andrea Laszlo De Simone - Fiore Mio"
+            },
+            {
+                text: "E tutti e due sappiamo bene che\nChe non c'è mai una fine e che mi fai morire\nStringimi forte, amore, stringimi forte e non sentirò\nPiù niente ma solo il tuo cuore, e dimmi che hai capito pure te\nChe non c'è mai una fine\nLa sensazione di sentirsi\nUn corpo solo e di toccarsi\nSolo scambiandoci sguardi",
+                author: "Modà - E Non C'è Mai Una Fine"
+            }
+        ];
+
+        let currentSlide = 0;
+        let slideInterval;
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const percentage = (gamesCompleted / 4) * 100;
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = gamesCompleted + '/4';
+        }
+
+        function startGames() {
+            document.getElementById('welcomeScreen').classList.remove('active');
+            document.getElementById('game1Screen').classList.add('active');
+            initMemoryGame();
+        }
+
+        function skipToEnd() {
+            // Stop background music
+            document.getElementById('backgroundMusic').pause();
+            
+            document.getElementById('welcomeScreen').classList.remove('active');
+            document.getElementById('finalScreen').classList.add('active');
+            createConfetti();
+            
+            setTimeout(() => {
+                showQuotes();
+            }, 1000);
+            
+            setTimeout(() => {
+                startSlideshow();
+            }, 2000);
+        }
+
+        function nextGame(gameNumber) {
+            gamesCompleted++;
+            updateProgress();
+            document.getElementById('game' + gameNumber + 'Screen').classList.remove('active');
+            document.getElementById('game' + (gameNumber + 1) + 'Screen').classList.add('active');
+            
+            if (gameNumber === 3) {
+                initWordGame();
+            }
+        }
+
+        // MEMORY GAME
+        function initMemoryGame() {
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            memoryCards = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
+            matchedPairs = 0;
+            moves = 0;
+            flippedCards = [];
+
+            memoryCards.forEach((symbol, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = index;
+                card.dataset.symbol = symbol;
+                card.onclick = () => flipCard(card);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            if (flippedCards.length === 2 || card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+
+            card.classList.add('flipped');
+            card.textContent = card.dataset.symbol;
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                
+                setTimeout(() => {
+                    if (flippedCards[0].dataset.symbol === flippedCards[1].dataset.symbol) {
+                        flippedCards[0].classList.add('matched');
+                        flippedCards[1].classList.add('matched');
+                        matchedPairs++;
+                        document.getElementById('matches').textContent = matchedPairs + '/8';
+                        
+                        if (matchedPairs === 8) {
+                            setTimeout(() => {
+                                gamesCompleted++;
+                                updateProgress();
+                                document.getElementById('game1Screen').classList.remove('active');
+                                document.getElementById('game2Screen').classList.add('active');
+                                initQuiz();
+                            }, 500);
+                        }
+                    } else {
+                        flippedCards[0].classList.remove('flipped');
+                        flippedCards[1].classList.remove('flipped');
+                        flippedCards[0].textContent = '';
+                        flippedCards[1].textContent = '';
+                    }
+                    flippedCards = [];
+                }, 1000);
+            }
+        }
+
+        // QUIZ GAME
+        function initQuiz() {
+            currentQuestion = 0;
+            quizScore = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const container = document.getElementById('quizContainer');
+            const q = quizQuestions[currentQuestion];
+            
+            container.innerHTML = `
+                <h3 style="color: #d63384; margin-bottom: 20px; font-size: 1.3em;">Domanda ${currentQuestion + 1}/3</h3>
+                <p style="font-size: 1.2em; margin-bottom: 20px;">${q.question}</p>
+            `;
+
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'quiz-option';
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, btn) {
+            const q = quizQuestions[currentQuestion];
+            const allOptions = document.querySelectorAll('.quiz-option');
+            
+            allOptions.forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (selected === q.correct) {
+                btn.classList.add('correct');
+                quizScore++;
+            } else {
+                btn.classList.add('wrong');
+                allOptions[q.correct].classList.add('correct');
+            }
+
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < quizQuestions.length) {
+                    showQuestion();
+                } else {
+                    gamesCompleted++;
+                    updateProgress();
+                    document.getElementById('game2Screen').classList.remove('active');
+                    document.getElementById('game3Screen').classList.add('active');
+                }
+            }, 1500);
+        }
+
+        // LOVE CALCULATOR
+        function calculateLove() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            
+            if (!name1 || !name2) {
+                alert('Inserisci entrambi i nomi!');
+                return;
+            }
+
+            const result = document.getElementById('loveResult');
+            const percentage = document.getElementById('percentage');
+            
+            let count = 0;
+            const interval = setInterval(() => {
+                count += 5;
+                percentage.textContent = count + '%';
+                if (count >= 100) {
+                    clearInterval(interval);
+                }
+            }, 50);
+            
+            result.style.display = 'block';
+        }
+
+        // WORD GAME
+        function initWordGame() {
+            guessedLetters = [];
+            attemptsLeft = 6;
+            renderWord();
+            renderLetterButtons();
+        }
+
+        function renderWord() {
+            const display = document.getElementById('wordDisplay');
+            let displayText = '';
+            for (let i = 0; i < secretWord.length; i++) {
+                const letter = secretWord[i];
+                if (guessedLetters.includes(letter)) {
+                    displayText += letter;
+                } else {
+                    displayText += '_';
+                }
+                // Add space after "PER"
+                if (i === 2) {
+                    displayText += '   ';
+                } else {
+                    displayText += ' ';
+                }
+            }
+            display.textContent = displayText;
+        }
+
+        function renderLetterButtons() {
+            const container = document.getElementById('letterButtons');
+            container.innerHTML = '';
+            
+            const alphabet = 'ABCDEFGHILMNOPQRSTUVZ';
+            alphabet.split('').forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.textContent = letter;
+                btn.style.padding = '8px 12px';
+                btn.style.margin = '4px';
+                btn.style.fontSize = '0.9em';
+                btn.style.minWidth = '40px';
+                
+                if (guessedLetters.includes(letter)) {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.3';
+                }
+                
+                btn.onclick = () => guessLetter(letter, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function guessLetter(letter, btn) {
+            guessedLetters.push(letter);
+            btn.disabled = true;
+            btn.style.opacity = '0.3';
+            
+            if (!secretWord.includes(letter)) {
+                attemptsLeft--;
+                document.getElementById('attempts').textContent = attemptsLeft;
+            }
+            
+            renderWord();
+            
+            if (secretWord.split('').every(l => guessedLetters.includes(l))) {
+                setTimeout(() => {
+                    gamesCompleted++;
+                    updateProgress();
+                    document.getElementById('game4Screen').classList.remove('active');
+                    document.getElementById('finalScreen').classList.add('active');
+                    startFinalSequence();
+                }, 500);
+            } else if (attemptsLeft === 0) {
+                setTimeout(() => {
+                    alert('Riprova! La frase era: PER SEMPRE');
+                    initWordGame();
+                }, 500);
+            }
+        }
+
+        function startFinalSequence() {
+            // Stop background music
+            document.getElementById('backgroundMusic').pause();
+            
+            createConfetti();
+            
+            setTimeout(() => {
+                showQuotes();
+            }, 1000);
+            
+            setTimeout(() => {
+                startSlideshow();
+            }, 2000);
+        }
+
+        function showQuotes() {
+            const container = document.getElementById('quotesContainer');
+            
+            // Delays fra le frasi: 15s normale, 40s tra Geolier e Andrea, 23s tra Andrea e Modà
+            const delays = [0, 15000, 55000, 78000];
+            
+            quotes.forEach((quote, index) => {
+                setTimeout(() => {
+                    const quoteCard = document.createElement('div');
+                    quoteCard.className = 'quote-card';
+                    quoteCard.style.animationDelay = (index * 0.3) + 's';
+                    
+                    const quoteText = document.createElement('div');
+                    quoteText.className = 'quote-text';
+                    quoteText.innerHTML = '"' + quote.text.replace(/\n/g, '<br>') + '"';
+                    
+                    const quoteAuthor = document.createElement('div');
+                    quoteAuthor.className = 'quote-author';
+                    quoteAuthor.textContent = '— ' + quote.author;
+                    
+                    quoteCard.appendChild(quoteText);
+                    quoteCard.appendChild(quoteAuthor);
+                    container.appendChild(quoteCard);
+                    
+                    // If this is the Capo Plaza quote, play the special music
+                    if (quote.author === "Capo Plaza - Ogni Male") {
+                        const quoteMusic = document.getElementById('quoteMusicPlayer');
+                        if (quoteMusic) {
+                            quoteMusic.currentTime = 74; // Start at 1:14
+                            quoteMusic.play().catch(e => console.log('Play error:', e));
+                            
+                            // Stop at 1:29 (89 seconds)
+                            const checkInterval = setInterval(() => {
+                                if (quoteMusic.currentTime >= 89) {
+                                    quoteMusic.pause();
+                                    quoteMusic.currentTime = 74;
+                                    clearInterval(checkInterval);
+                                    
+                                    // Show next quote (Geolier - Stelle)
+                                    setTimeout(() => {
+                                        const nextQuoteCard = container.querySelector('[data-quote-index="1"]');
+                                        if (nextQuoteCard) {
+                                            nextQuoteCard.style.opacity = '1';
+                                        }
+                                    }, 500);
+                                }
+                            }, 100);
+                        }
+                    }
+                    
+                    // If this is the Geolier quote, play the special music
+                    if (quote.author === "Geolier - Stelle") {
+                        setTimeout(() => {
+                            const geolierMusic = document.getElementById('geolierMusicPlayer');
+                            if (geolierMusic) {
+                                geolierMusic.currentTime = 59; // Start at 0:59
+                                geolierMusic.play().catch(e => console.log('Play error:', e));
+                                
+                                // Stop at 1:37 (97 seconds)
+                                const checkInterval = setInterval(() => {
+                                    if (geolierMusic.currentTime >= 97) {
+                                        geolierMusic.pause();
+                                        geolierMusic.currentTime = 59;
+                                        clearInterval(checkInterval);
+                                    }
+                                }, 100);
+                            }
+                        }, 500);
+                    }
+                    
+                    // If this is the Andrea Laszlo De Simone quote, play the special music
+                    if (quote.author === "Andrea Laszlo De Simone - Fiore Mio") {
+                        setTimeout(() => {
+                            const andreaMusic = document.getElementById('andreaMusicPlayer');
+                            if (andreaMusic) {
+                                andreaMusic.currentTime = 59; // Start at 0:59
+                                andreaMusic.play().catch(e => console.log('Play error:', e));
+                                
+                                // Stop at 1:20 (80 seconds)
+                                const checkInterval = setInterval(() => {
+                                    if (andreaMusic.currentTime >= 80) {
+                                        andreaMusic.pause();
+                                        andreaMusic.currentTime = 59;
+                                        clearInterval(checkInterval);
+                                    }
+                                }, 100);
+                            }
+                        }, 500);
+                    }
+                    
+                    // If this is the Modà quote, play the special music
+                    if (quote.author === "Modà - E Non C'è Mai Una Fine") {
+                        setTimeout(() => {
+                            const modaMusic = document.getElementById('modaMusicPlayer');
+                            if (modaMusic) {
+                                modaMusic.currentTime = 57; // Start at 0:57
+                                modaMusic.play().catch(e => console.log('Play error:', e));
+                                
+                                // Stop at 1:53 (113 seconds)
+                                const checkInterval = setInterval(() => {
+                                    if (modaMusic.currentTime >= 113) {
+                                        modaMusic.pause();
+                                        modaMusic.currentTime = 57;
+                                        clearInterval(checkInterval);
+                                    }
+                                }, 100);
+                            }
+                        }, 500);
+                    }
+                    
+                    quoteCard.setAttribute('data-quote-index', index);
+                }, delays[index] || index * 15000);
+            });
+        }
+
+        function startSlideshow() {
+            const slides = document.querySelectorAll('.slide');
+            
+            slideInterval = setInterval(() => {
+                slides[currentSlide].classList.remove('active-slide');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active-slide');
+            }, 4000);
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#ff69b4', '#ff1493', '#ff6b9d', '#c71585'][Math.floor(Math.random() * 4)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // Audio player with loop at 2:40
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioPlayer = document.getElementById('backgroundMusic');
+            if (!audioPlayer) return;
+            
+            const loopTime = 160; // 2:40 in seconds
+            
+            audioPlayer.addEventListener('timeupdate', () => {
+                if (audioPlayer.currentTime >= loopTime) {
+                    audioPlayer.currentTime = 0;
+                }
+            });
+            
+            // Play on user interaction
+            document.addEventListener('click', () => {
+                if (audioPlayer.paused) {
+                    audioPlayer.play().catch(e => console.log('Play error:', e));
+                }
+            }, { once: true });
+        });
+    </script>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" style="display: none;">
+        <source src="musica.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Quote Music (Capo Plaza) -->
+    <audio id="quoteMusicPlayer" style="display: none;">
+        <source src="song1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Quote Music (Geolier) -->
+    <audio id="geolierMusicPlayer" style="display: none;">
+        <source src="song2.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Quote Music (Andrea) -->
+    <audio id="andreaMusicPlayer" style="display: none;">
+        <source src="song3.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Quote Music (Modà) -->
+    <audio id="modaMusicPlayer" style="display: none;">
+        <source src="song4.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</body>
+</html>
