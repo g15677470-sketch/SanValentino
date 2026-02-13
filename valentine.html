@@ -420,13 +420,13 @@
             width: 10px;
             height: 10px;
             background: #f0f;
-            position: absolute;
             animation: confetti-fall 3s linear;
         }
 
         @keyframes confetti-fall {
             to {
                 transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
             }
         }
 
@@ -468,11 +468,10 @@
             }
         }
 
-        /* Tree of Life - Enhanced */
+        /* ULTRA REALISTIC TREE CONTAINER */
         .tree-container {
             margin: 30px 0;
-            padding: 20px;
-            background: linear-gradient(180deg, #87CEEB 0%, #E6F3FF 50%, #90EE90 100%);
+            padding: 30px 15px;
             border-radius: 15px;
             position: relative;
             overflow: hidden;
@@ -481,56 +480,117 @@
         @media (min-width: 768px) {
             .tree-container {
                 margin: 40px 0;
-                padding: 40px;
+                padding: 50px 40px;
                 border-radius: 20px;
             }
         }
 
-        .tree-container::before {
-            content: '✨';
+        /* Clouds */
+        .cloud {
             position: absolute;
-            font-size: 1.5em;
-            top: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 100px;
+            animation: float-cloud 20s infinite ease-in-out;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 100px;
+        }
+
+        .cloud1 {
+            width: 80px;
+            height: 30px;
+            top: 20px;
+            left: 20%;
+        }
+
+        .cloud1::before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
             left: 10px;
-            animation: twinkle 2s infinite;
-        }
-        
-        @media (min-width: 768px) {
-            .tree-container::before {
-                font-size: 2em;
-                top: 20px;
-                left: 20px;
-            }
         }
 
-        .tree-container::after {
-            content: '✨';
-            position: absolute;
-            font-size: 1.5em;
-            top: 10px;
+        .cloud1::after {
+            width: 50px;
+            height: 35px;
+            top: -15px;
             right: 10px;
-            animation: twinkle 2s infinite 1s;
-        }
-        
-        @media (min-width: 768px) {
-            .tree-container::after {
-                font-size: 2em;
-                top: 20px;
-                right: 20px;
-            }
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+        .cloud2 {
+            width: 60px;
+            height: 25px;
+            top: 40px;
+            right: 25%;
+            animation-delay: -5s;
+        }
+
+        .cloud2::before {
+            width: 35px;
+            height: 35px;
+            top: -15px;
+            left: 8px;
+        }
+
+        .cloud2::after {
+            width: 40px;
+            height: 30px;
+            top: -12px;
+            right: 8px;
+        }
+
+        @keyframes float-cloud {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(30px); }
+        }
+
+        /* Sun */
+        .sun {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            animation: pulse-sun 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-sun {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
+        }
+
+        /* Grass at bottom */
+        .grass {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: repeating-linear-gradient(
+                90deg,
+                #228B22 0px,
+                #228B22 2px,
+                #2E8B57 2px,
+                #2E8B57 4px
+            );
         }
 
         .tree-svg {
             width: 100%;
             max-width: 350px;
-            height: 400px;
-            margin: 0 auto;
+            height: 450px;
+            margin: 20px auto;
             display: block;
+            position: relative;
+            z-index: 2;
         }
         
         @media (min-width: 768px) {
@@ -540,191 +600,202 @@
             }
         }
 
-        .quote-card {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            border-left: 4px solid #d63384;
-            opacity: 0;
-            animation: fadeInQuote 1s forwards;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        @media (min-width: 768px) {
-            .quote-card {
-                margin: 30px 0;
-                padding: 25px;
-                border-radius: 20px;
-                border-left: 5px solid #d63384;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            }
+        /* Enhanced Quote Cards with Scratch Effect */
+        .scratch-card-container {
+            margin: 25px 0;
+            perspective: 1000px;
         }
 
-        .quote-text {
+        .scratch-card {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+        }
+
+        .scratch-card:hover {
+            transform: translateY(-5px) rotateX(2deg);
+        }
+
+        .scratch-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-text-scratch {
             font-style: italic;
             color: #495057;
-            font-size: 1em;
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-        
-        @media (min-width: 768px) {
-            .quote-text {
-                font-size: 1.2em;
-                line-height: 1.8;
-                margin-bottom: 15px;
-            }
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            white-space: pre-line;
         }
 
-        .quote-author {
+        .quote-author-scratch {
             color: #d63384;
             font-weight: bold;
-            font-size: 0.85em;
-            margin-top: 8px;
-        }
-        
-        @media (min-width: 768px) {
-            .quote-author {
-                font-size: 0.9em;
-                margin-top: 10px;
-            }
-        }
-
-        .music-player {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 15px;
-            border-radius: 12px;
-            margin: 15px 0;
-            text-align: center;
-            color: white;
-        }
-        
-        @media (min-width: 768px) {
-            .music-player {
-                padding: 20px;
-                border-radius: 15px;
-                margin: 20px 0;
-            }
-        }
-
-        .music-player-title {
             font-size: 1em;
-            margin-bottom: 12px;
+            margin-top: 15px;
+        }
+
+        .scratch-overlay-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            z-index: 10;
+            cursor: crosshair;
+        }
+
+        .scratch-instruction {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-weight: bold;
+            color: #d63384;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            z-index: 11;
+            animation: pulse-instruction 2s infinite;
+        }
+
+        @keyframes pulse-instruction {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+
+        .scratch-progress {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            pointer-events: none;
+            z-index: 12;
+        }
+
+        /* Music notification */
+        .music-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            animation: slideInRight 0.5s;
+            display: none;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(400px); }
+            to { transform: translateX(0); }
+        }
+
+        .music-notification.show {
+            display: block;
+        }
+
+        /* Love timer */
+        .love-timer {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .timer-title {
+            font-size: 1.2em;
+            margin-bottom: 15px;
             font-weight: bold;
         }
-        
-        @media (min-width: 768px) {
-            .music-player-title {
-                font-size: 1.1em;
-                margin-bottom: 15px;
+
+        .timer-display {
+            font-size: 2em;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .timer-display {
+                font-size: 1.5em;
             }
         }
 
-        .music-placeholder {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.85em;
-            border: 2px dashed rgba(255, 255, 255, 0.5);
-        }
-        
-        @media (min-width: 768px) {
-            .music-placeholder {
-                padding: 15px;
-                border-radius: 10px;
-                font-size: 0.9em;
-            }
-        }
-
-        @keyframes fadeInQuote {
-            to { opacity: 1; }
-        }
-
-        .branch {
-            stroke: #8b4513;
-            stroke-width: 4;
-            fill: none;
-            stroke-dasharray: 300;
-            stroke-dashoffset: 300;
-            animation: drawBranch 3s forwards;
-            stroke-linecap: round;
-        }
-
-        @keyframes drawBranch {
-            to { stroke-dashoffset: 0; }
-        }
-
-        .leaf {
-            opacity: 0;
-            animation: growLeaf 1s forwards;
-        }
-
-        @keyframes growLeaf {
-            0% { opacity: 0; transform: scale(0); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .fruit {
-            opacity: 0;
-            animation: growFruit 1.5s forwards;
-        }
-
-        @keyframes growFruit {
-            0% { opacity: 0; transform: scale(0) rotate(0deg); }
-            60% { transform: scale(1.2) rotate(10deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
-
-        .root {
-            stroke: #654321;
-            stroke-width: 3;
-            fill: none;
-            stroke-dasharray: 150;
-            stroke-dashoffset: 150;
-            animation: drawRoot 2s forwards;
-        }
-
-        @keyframes drawRoot {
-            to { stroke-dashoffset: 0; }
+        .timer-label {
+            font-size: 0.8em;
+            margin-top: 10px;
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="hearts-bg">
-            <div class="heart" style="left: 10%; top: 10%; font-size: 2em;">💙</div>
-            <div class="heart" style="left: 80%; top: 20%; font-size: 1.5em; animation-delay: 1s;">💙</div>
-            <div class="heart" style="left: 50%; top: 70%; font-size: 2.5em; animation-delay: 2s;">💙</div>
-            <div class="heart" style="left: 20%; top: 60%; font-size: 1.8em; animation-delay: 0.5s;">💙</div>
+            <div class="heart" style="left: 10%; top: 10%; font-size: 2em;">❤️</div>
+            <div class="heart" style="left: 80%; top: 20%; font-size: 1.5em; animation-delay: 1s;">💕</div>
+            <div class="heart" style="left: 50%; top: 70%; font-size: 2.5em; animation-delay: 2s;">💖</div>
+            <div class="heart" style="left: 20%; top: 60%; font-size: 1.8em; animation-delay: 0.5s;">💗</div>
         </div>
 
-        <h1>💙 Giochi dell'Amore 💙</h1>
+        <h1>❤️ Giochi dell'Amore ❤️</h1>
         <p class="subtitle">Un percorso romantico verso il tuo premio speciale</p>
 
         <div class="progress-bar">
             <div class="progress-fill" id="progressBar">0/4</div>
         </div>
 
-        <!-- Schermata iniziale -->
+        <!-- Welcome Screen -->
         <div class="screen active" id="welcomeScreen">
             <div class="game-container">
-                <h2 style="text-align: center; color: #d63384; margin-bottom: 20px;">Benvenuto/a! �</h2>
+                <h2 style="text-align: center; color: #d63384; margin-bottom: 20px;">Benvenuto/a! 💝</h2>
                 <p style="text-align: center; font-size: 1.2em; line-height: 1.8; color: #495057;">
                     Preparati a un'avventura romantica! Supera 4 giochi divertenti per scoprire il tuo premio finale speciale.
                     Ogni gioco completato ti avvicinerà sempre di più alla sorpresa che ti aspetta! 🎁
                 </p>
                 <div class="center" style="margin-top: 30px;">
-                    <button class="btn" onclick="startGames()">Inizia l'Avventura! �</button>
-                    <button class="btn" onclick="skipToEnd()" style="background: #ff69b4; margin-top: 15px;">Salta al Finale →</button>
+                    <button class="btn" onclick="startGames()">Inizia l'Avventura! 💖</button>
+                    <br>
+                    <button class="btn" onclick="skipToEnd()" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%); margin-top: 10px; font-size: 0.9em;">
+                        Vai Direttamente al Premio 🎁
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Gioco 1: Memory -->
+        <!-- Game 1: Memory -->
         <div class="screen" id="game1Screen">
-            <h2 class="game-title">Gioco 1: Memory dell'Amore �</h2>
+            <h2 class="game-title">Gioco 1: Memory dell'Amore 💕</h2>
             <p class="game-instructions">Trova tutte le coppie di simboli d'amore!</p>
             <div class="stats">
                 <div class="stat-item">
@@ -741,34 +812,34 @@
             </div>
         </div>
 
-        <!-- Gioco 2: Quiz -->
+        <!-- Game 2: Quiz -->
         <div class="screen" id="game2Screen">
-            <h2 class="game-title">Gioco 2: Quiz Romantico �</h2>
+            <h2 class="game-title">Gioco 2: Quiz Romantico 💘</h2>
             <p class="game-instructions">Rispondi correttamente a 3 domande sull'amore!</p>
             <div class="game-container">
                 <div id="quizContainer"></div>
             </div>
         </div>
 
-        <!-- Gioco 3: Love Calculator -->
+        <!-- Game 3: Love Calculator -->
         <div class="screen" id="game3Screen">
-            <h2 class="game-title">Gioco 3: Calcolatore d'Amore �</h2>
+            <h2 class="game-title">Gioco 3: Calcolatore d'Amore 💖</h2>
             <p class="game-instructions">Scopri la percentuale di compatibilità!</p>
             <div class="game-container love-calculator">
                 <input type="text" class="name-input" id="name1" placeholder="Il tuo nome">
                 <div style="font-size: 2em; color: #d63384; margin: 10px 0;">+</div>
                 <input type="text" class="name-input" id="name2" placeholder="Nome del/della partner">
                 <br>
-                <button class="btn" onclick="calculateLove()" style="margin-top: 20px;">Calcola l'Amore! �</button>
+                <button class="btn" onclick="calculateLove()" style="margin-top: 20px;">Calcola l'Amore! 💕</button>
                 <div id="loveResult" style="display: none; margin-top: 20px;">
                     <div class="percentage-display" id="percentage"></div>
-                    <p style="font-size: 1.3em; color: #495057;">Compatibilità perfetta! 💙</p>
+                    <p style="font-size: 1.3em; color: #495057;">Compatibilità perfetta! ❤️</p>
                     <button class="btn" onclick="nextGame(3)">Continua →</button>
                 </div>
             </div>
         </div>
 
-        <!-- Gioco 4: Indovina la parola -->
+        <!-- Game 4: Word Guessing Game -->
         <div class="screen" id="game4Screen">
             <h2 class="game-title">Gioco 4: Indovina la Frase 💬</h2>
             <p class="game-instructions">Indovina la frase romantica segreta!</p>
@@ -785,109 +856,27 @@
             </div>
         </div>
 
-        <!-- Schermata finale -->
+        <!-- Final Screen -->
         <div class="screen" id="finalScreen">
             <div class="final-prize">
                 <h2>🎉 Congratulazioni! 🎉</h2>
                 <p class="prize-message">
-                    Hai completato tutti i giochi dell'amore con successo! �
-                    <br>
-                    Ecco il tuo premio speciale...
+                    Hai completato tutti i giochi dell'amore con successo! 💖
+                    <br><br>
+                    Ora gratta le carte per scoprire messaggi speciali per te!
                 </p>
 
-                <!-- Tree of Life -->
-                <div class="tree-container">
-                    <h3 style="text-align: center; color: #2d5016; margin-bottom: 20px; font-size: 1.5em;">🌳 L'Albero della Nostra Vita 🌳</h3>
-                    <svg class="tree-svg" viewBox="0 0 500 600" id="treeSvg">
-                        <!-- Roots -->
-                        <path class="root" d="M 250 550 Q 200 560 150 570" style="animation-delay: 0s;"/>
-                        <path class="root" d="M 250 550 Q 300 560 350 570" style="animation-delay: 0.2s;"/>
-                        <path class="root" d="M 250 550 Q 220 565 180 575" style="animation-delay: 0.4s;"/>
-                        <path class="root" d="M 250 550 Q 280 565 320 575" style="animation-delay: 0.6s;"/>
-                        
-                        <!-- Main Trunk -->
-                        <path class="branch" d="M 250 550 L 250 350" style="animation-delay: 1s; stroke-width: 8;"/>
-                        
-                        <!-- Main branches -->
-                        <path class="branch" d="M 250 350 Q 180 320 130 280" style="animation-delay: 2s; stroke-width: 6;"/>
-                        <path class="branch" d="M 250 350 Q 320 320 370 280" style="animation-delay: 2s; stroke-width: 6;"/>
-                        <path class="branch" d="M 250 350 L 250 250" style="animation-delay: 2.5s; stroke-width: 6;"/>
-                        
-                        <!-- Secondary branches -->
-                        <path class="branch" d="M 130 280 Q 100 250 80 210" style="animation-delay: 3s; stroke-width: 4;"/>
-                        <path class="branch" d="M 130 280 Q 140 240 150 200" style="animation-delay: 3.2s; stroke-width: 4;"/>
-                        <path class="branch" d="M 370 280 Q 400 250 420 210" style="animation-delay: 3s; stroke-width: 4;"/>
-                        <path class="branch" d="M 370 280 Q 360 240 350 200" style="animation-delay: 3.2s; stroke-width: 4;"/>
-                        <path class="branch" d="M 250 250 Q 200 220 170 180" style="animation-delay: 3.5s; stroke-width: 5;"/>
-                        <path class="branch" d="M 250 250 Q 300 220 330 180" style="animation-delay: 3.5s; stroke-width: 5;"/>
-                        <path class="branch" d="M 250 250 L 250 150" style="animation-delay: 4s; stroke-width: 5;"/>
-                        
-                        <!-- Tertiary branches -->
-                        <path class="branch" d="M 170 180 Q 140 160 120 130" style="animation-delay: 4.5s; stroke-width: 3;"/>
-                        <path class="branch" d="M 330 180 Q 360 160 380 130" style="animation-delay: 4.5s; stroke-width: 3;"/>
-                        <path class="branch" d="M 250 150 Q 220 130 200 100" style="animation-delay: 5s; stroke-width: 4;"/>
-                        <path class="branch" d="M 250 150 Q 280 130 300 100" style="animation-delay: 5s; stroke-width: 4;"/>
-                        
-                        <!-- Leaves - Large clusters -->
-                        <circle class="leaf" cx="80" cy="210" r="25" fill="#2d5016" style="animation-delay: 5.5s;"/>
-                        <circle class="leaf" cx="75" cy="220" r="20" fill="#3a6b1f" style="animation-delay: 5.6s;"/>
-                        <circle class="leaf" cx="90" cy="215" r="22" fill="#4a8029" style="animation-delay: 5.7s;"/>
-                        
-                        <circle class="leaf" cx="420" cy="210" r="25" fill="#2d5016" style="animation-delay: 5.5s;"/>
-                        <circle class="leaf" cx="425" cy="220" r="20" fill="#3a6b1f" style="animation-delay: 5.6s;"/>
-                        <circle class="leaf" cx="410" cy="215" r="22" fill="#4a8029" style="animation-delay: 5.7s;"/>
-                        
-                        <circle class="leaf" cx="150" cy="200" r="23" fill="#2d5016" style="animation-delay: 5.8s;"/>
-                        <circle class="leaf" cx="145" cy="210" r="18" fill="#3a6b1f" style="animation-delay: 5.9s;"/>
-                        
-                        <circle class="leaf" cx="350" cy="200" r="23" fill="#2d5016" style="animation-delay: 5.8s;"/>
-                        <circle class="leaf" cx="355" cy="210" r="18" fill="#3a6b1f" style="animation-delay: 5.9s;"/>
-                        
-                        <circle class="leaf" cx="120" cy="130" r="20" fill="#2d5016" style="animation-delay: 6s;"/>
-                        <circle class="leaf" cx="125" cy="140" r="17" fill="#3a6b1f" style="animation-delay: 6.1s;"/>
-                        
-                        <circle class="leaf" cx="380" cy="130" r="20" fill="#2d5016" style="animation-delay: 6s;"/>
-                        <circle class="leaf" cx="375" cy="140" r="17" fill="#3a6b1f" style="animation-delay: 6.1s;"/>
-                        
-                        <circle class="leaf" cx="170" cy="180" r="22" fill="#2d5016" style="animation-delay: 6.2s;"/>
-                        <circle class="leaf" cx="175" cy="190" r="18" fill="#3a6b1f" style="animation-delay: 6.3s;"/>
-                        
-                        <circle class="leaf" cx="330" cy="180" r="22" fill="#2d5016" style="animation-delay: 6.2s;"/>
-                        <circle class="leaf" cx="325" cy="190" r="18" fill="#3a6b1f" style="animation-delay: 6.3s;"/>
-                        
-                        <circle class="leaf" cx="200" cy="100" r="24" fill="#2d5016" style="animation-delay: 6.4s;"/>
-                        <circle class="leaf" cx="195" cy="110" r="20" fill="#3a6b1f" style="animation-delay: 6.5s;"/>
-                        <circle class="leaf" cx="205" cy="105" r="21" fill="#4a8029" style="animation-delay: 6.6s;"/>
-                        
-                        <circle class="leaf" cx="300" cy="100" r="24" fill="#2d5016" style="animation-delay: 6.4s;"/>
-                        <circle class="leaf" cx="305" cy="110" r="20" fill="#3a6b1f" style="animation-delay: 6.5s;"/>
-                        <circle class="leaf" cx="295" cy="105" r="21" fill="#4a8029" style="animation-delay: 6.6s;"/>
-                        
-                        <circle class="leaf" cx="250" cy="120" r="26" fill="#2d5016" style="animation-delay: 6.7s;"/>
-                        <circle class="leaf" cx="245" cy="130" r="22" fill="#3a6b1f" style="animation-delay: 6.8s;"/>
-                        <circle class="leaf" cx="255" cy="125" r="23" fill="#4a8029" style="animation-delay: 6.9s;"/>
-                        
-                        <!-- Fruits/Apples -->
-                        <circle class="fruit" cx="100" cy="200" r="12" fill="#dc143c" style="animation-delay: 7s;"/>
-                        <circle class="fruit" cx="400" cy="200" r="12" fill="#dc143c" style="animation-delay: 7.2s;"/>
-                        <circle class="fruit" cx="180" cy="170" r="12" fill="#dc143c" style="animation-delay: 7.4s;"/>
-                        <circle class="fruit" cx="320" cy="170" r="12" fill="#dc143c" style="animation-delay: 7.6s;"/>
-                        <circle class="fruit" cx="210" cy="110" r="12" fill="#dc143c" style="animation-delay: 7.8s;"/>
-                        <circle class="fruit" cx="290" cy="110" r="12" fill="#dc143c" style="animation-delay: 8s;"/>
-                        
-                        <!-- Crown/Top heart -->
-                        <text x="250" y="90" font-size="40" text-anchor="middle" fill="#0099ff" class="fruit" style="animation-delay: 8.5s;">💙</text>
-                        
-                        <!-- Birds -->
-                        <text x="50" y="180" font-size="25" text-anchor="middle" fill="#000" class="fruit" style="animation-delay: 9s;">🕊️</text>
-                        <text x="450" y="180" font-size="25" text-anchor="middle" fill="#000" class="fruit" style="animation-delay: 9.2s;">🕊️</text>
-                    </svg>
+                <!-- Scratch Cards Section -->
+                <div id="scratchCardsContainer" style="margin: 40px 0;"></div>
+
+                <!-- Love Timer -->
+                <div class="love-timer">
+                    <div class="timer-title">⏰ Insieme da:</div>
+                    <div class="timer-display" id="timerDisplay">0 : 00 : 00 : 00</div>
+                    <div class="timer-label">Giorni : Ore : Minuti : Secondi</div>
                 </div>
 
-                <!-- Quote Cards with Music Players -->
-                <div id="quotesContainer"></div>
-
-                <!-- Slideshow -->
+                <!-- Your Photos Slideshow -->
                 <div class="slideshow-container">
                     <div class="slide active-slide">
                         <img src="photo1.jpeg" alt="Momento speciale">
@@ -901,11 +890,37 @@
                 </div>
 
                 <p class="prize-message" style="margin-top: 30px;">
-                    Ti amo più di quanto le parole possano esprimere! 💙💙💙💙💙
+                    Ti amo più di quanto le parole possano esprimere! ❤️💕💖💗💝
                 </p>
             </div>
         </div>
     </div>
+
+    <!-- Music Notification -->
+    <div class="music-notification" id="musicNotification">
+        🎵 Musica in riproduzione...
+    </div>
+
+    <!-- Audio Players for Quote Songs -->
+    <audio id="quoteMusicPlayer" style="display: none;" preload="auto">
+        <source src="song1.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="geolierMusicPlayer" style="display: none;" preload="auto">
+        <source src="song2.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="andreaMusicPlayer" style="display: none;" preload="auto">
+        <source src="song3.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="modaMusicPlayer" style="display: none;" preload="auto">
+        <source src="song4.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="gameMusicPlayer" style="display: none;" preload="auto" loop>
+        <source src="musica 3.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         let currentGame = 0;
@@ -945,6 +960,10 @@
         let guessedLetters = [];
         let attemptsLeft = 6;
 
+        // Slideshow
+        let currentSlide = 0;
+        let slideInterval;
+
         // Quotes with music info
         const quotes = [
             {
@@ -965,9 +984,6 @@
             }
         ];
 
-        let currentSlide = 0;
-        let slideInterval;
-
         function updateProgress() {
             const progressBar = document.getElementById('progressBar');
             const percentage = (gamesCompleted / 4) * 100;
@@ -979,23 +995,24 @@
             document.getElementById('welcomeScreen').classList.remove('active');
             document.getElementById('game1Screen').classList.add('active');
             initMemoryGame();
+            
+            // Start background music
+            const gameMusic = document.getElementById('gameMusicPlayer');
+            gameMusic.currentTime = 0;
+            gameMusic.play().catch(e => console.log('Music play error:', e));
         }
 
         function skipToEnd() {
-            // Stop background music
-            document.getElementById('backgroundMusic').pause();
+            // Set progress to 100%
+            gamesCompleted = 4;
+            updateProgress();
             
+            // Hide welcome screen and show final screen
             document.getElementById('welcomeScreen').classList.remove('active');
             document.getElementById('finalScreen').classList.add('active');
-            createConfetti();
             
-            setTimeout(() => {
-                showQuotes();
-            }, 1000);
-            
-            setTimeout(() => {
-                startSlideshow();
-            }, 2000);
+            // Start final sequence
+            startFinalSequence();
         }
 
         function nextGame(gameNumber) {
@@ -1227,132 +1244,281 @@
 
         function startFinalSequence() {
             // Stop background music
-            document.getElementById('backgroundMusic').pause();
+            const gameMusic = document.getElementById('gameMusicPlayer');
+            gameMusic.pause();
+            gameMusic.currentTime = 0;
             
             createConfetti();
             
             setTimeout(() => {
-                showQuotes();
+                showScratchCards();
             }, 1000);
             
             setTimeout(() => {
                 startSlideshow();
             }, 2000);
+            
+            // Start timer
+            updateTimer();
+            setInterval(updateTimer, 1000);
         }
 
-        function showQuotes() {
-            const container = document.getElementById('quotesContainer');
-            
-            // Delays fra le frasi: 15s normale, 40s tra Geolier e Andrea, 23s tra Andrea e Modà
-            const delays = [0, 15000, 55000, 78000];
-            
+        function showScratchCards() {
+            const container = document.getElementById('scratchCardsContainer');
             quotes.forEach((quote, index) => {
-                setTimeout(() => {
-                    const quoteCard = document.createElement('div');
-                    quoteCard.className = 'quote-card';
-                    quoteCard.style.animationDelay = (index * 0.3) + 's';
-                    
-                    const quoteText = document.createElement('div');
-                    quoteText.className = 'quote-text';
-                    quoteText.innerHTML = '"' + quote.text.replace(/\n/g, '<br>') + '"';
-                    
-                    const quoteAuthor = document.createElement('div');
-                    quoteAuthor.className = 'quote-author';
-                    quoteAuthor.textContent = '— ' + quote.author;
-                    
-                    quoteCard.appendChild(quoteText);
-                    quoteCard.appendChild(quoteAuthor);
-                    container.appendChild(quoteCard);
-                    
-                    // If this is the Capo Plaza quote, play the special music
-                    if (quote.author === "Capo Plaza - Ogni Male") {
-                        const quoteMusic = document.getElementById('quoteMusicPlayer');
-                        if (quoteMusic) {
-                            quoteMusic.currentTime = 74; // Start at 1:14
-                            quoteMusic.play().catch(e => console.log('Play error:', e));
-                            
-                            // Stop at 1:29 (89 seconds)
-                            const checkInterval = setInterval(() => {
-                                if (quoteMusic.currentTime >= 89) {
-                                    quoteMusic.pause();
-                                    quoteMusic.currentTime = 74;
-                                    clearInterval(checkInterval);
-                                    
-                                    // Show next quote (Geolier - Stelle)
-                                    setTimeout(() => {
-                                        const nextQuoteCard = container.querySelector('[data-quote-index="1"]');
-                                        if (nextQuoteCard) {
-                                            nextQuoteCard.style.opacity = '1';
-                                        }
-                                    }, 500);
-                                }
-                            }, 100);
-                        }
-                    }
-                    
-                    // If this is the Geolier quote, play the special music
-                    if (quote.author === "Geolier - Stelle") {
-                        setTimeout(() => {
-                            const geolierMusic = document.getElementById('geolierMusicPlayer');
-                            if (geolierMusic) {
-                                geolierMusic.currentTime = 59; // Start at 0:59
-                                geolierMusic.play().catch(e => console.log('Play error:', e));
-                                
-                                // Stop at 1:37 (97 seconds)
-                                const checkInterval = setInterval(() => {
-                                    if (geolierMusic.currentTime >= 97) {
-                                        geolierMusic.pause();
-                                        geolierMusic.currentTime = 59;
-                                        clearInterval(checkInterval);
-                                    }
-                                }, 100);
-                            }
-                        }, 500);
-                    }
-                    
-                    // If this is the Andrea Laszlo De Simone quote, play the special music
-                    if (quote.author === "Andrea Laszlo De Simone - Fiore Mio") {
-                        setTimeout(() => {
-                            const andreaMusic = document.getElementById('andreaMusicPlayer');
-                            if (andreaMusic) {
-                                andreaMusic.currentTime = 59; // Start at 0:59
-                                andreaMusic.play().catch(e => console.log('Play error:', e));
-                                
-                                // Stop at 1:20 (80 seconds)
-                                const checkInterval = setInterval(() => {
-                                    if (andreaMusic.currentTime >= 80) {
-                                        andreaMusic.pause();
-                                        andreaMusic.currentTime = 59;
-                                        clearInterval(checkInterval);
-                                    }
-                                }, 100);
-                            }
-                        }, 500);
-                    }
-                    
-                    // If this is the Modà quote, play the special music
-                    if (quote.author === "Modà - E Non C'è Mai Una Fine") {
-                        setTimeout(() => {
-                            const modaMusic = document.getElementById('modaMusicPlayer');
-                            if (modaMusic) {
-                                modaMusic.currentTime = 57; // Start at 0:57
-                                modaMusic.play().catch(e => console.log('Play error:', e));
-                                
-                                // Stop at 1:53 (113 seconds)
-                                const checkInterval = setInterval(() => {
-                                    if (modaMusic.currentTime >= 113) {
-                                        modaMusic.pause();
-                                        modaMusic.currentTime = 57;
-                                        clearInterval(checkInterval);
-                                    }
-                                }, 100);
-                            }
-                        }, 500);
-                    }
-                    
-                    quoteCard.setAttribute('data-quote-index', index);
-                }, delays[index] || index * 15000);
+                const cardContainer = document.createElement('div');
+                cardContainer.className = 'scratch-card-container';
+                
+                const card = document.createElement('div');
+                card.className = 'scratch-card';
+                
+                const content = document.createElement('div');
+                content.className = 'scratch-content';
+                content.innerHTML = `
+                    <div class="quote-text-scratch">"${quote.text.replace(/\n/g, '<br>')}"</div>
+                    <div class="quote-author-scratch">— ${quote.author}</div>
+                `;
+                
+                const overlayContainer = document.createElement('div');
+                overlayContainer.className = 'scratch-overlay-container';
+                overlayContainer.id = 'scratchOverlay' + index;
+                
+                const instruction = document.createElement('div');
+                instruction.className = 'scratch-instruction';
+                instruction.textContent = '✋ Gratta qui!';
+                
+                const canvas = document.createElement('canvas');
+                canvas.className = 'scratch-canvas';
+                canvas.id = 'scratchCanvas' + index;
+                
+                overlayContainer.appendChild(instruction);
+                overlayContainer.appendChild(canvas);
+                
+                card.appendChild(content);
+                card.appendChild(overlayContainer);
+                cardContainer.appendChild(card);
+                container.appendChild(cardContainer);
+                
+                // Initialize scratch for this card
+                setTimeout(() => initCardScratch(canvas, overlayContainer, quote), 50);
             });
+        }
+
+        function initCardScratch(canvas, overlay, quote) {
+            const ctx = canvas.getContext('2d');
+            const instruction = overlay.querySelector('.scratch-instruction');
+            
+            canvas.width = overlay.offsetWidth;
+            canvas.height = overlay.offsetHeight;
+            
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#C0C0C0');
+            gradient.addColorStop(0.3, '#E8E8E8');
+            gradient.addColorStop(0.5, '#FFFFFF');
+            gradient.addColorStop(0.7, '#E8E8E8');
+            gradient.addColorStop(1, '#C0C0C0');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 200; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 2;
+                ctx.fillStyle = `rgba(${150 + Math.random() * 50}, ${150 + Math.random() * 50}, ${150 + Math.random() * 50}, 0.3)`;
+                ctx.fillRect(x, y, size, size);
+            }
+            
+            let isScratching = false;
+            let hasStartedScratching = false;
+            const totalPixels = canvas.width * canvas.height;
+            
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = 40;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            function scratch(x, y) {
+                // On first scratch
+                if (!hasStartedScratching) {
+                    hasStartedScratching = true;
+                    // Hide instruction
+                    if (instruction) {
+                        instruction.style.transition = 'opacity 0.3s';
+                        instruction.style.opacity = '0';
+                        setTimeout(() => {
+                            instruction.style.display = 'none';
+                        }, 300);
+                    }
+                    // Start music
+                    playQuoteMusic(quote);
+                }
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                let transparent = 0;
+                for (let i = 3; i < imageData.data.length; i += 4) {
+                    if (imageData.data[i] === 0) transparent++;
+                }
+                
+                const percentage = Math.floor((transparent / totalPixels) * 100);
+                progressDisplay.textContent = percentage + '%';
+                
+                if (percentage >= 70 && overlay.style.opacity !== '0') {
+                    overlay.style.transition = 'opacity 1s';
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 1000);
+                }
+            }
+            
+            canvas.addEventListener('mousedown', (e) => {
+                isScratching = true;
+                const rect = canvas.getBoundingClientRect();
+                scratch(e.clientX - rect.left, e.clientY - rect.top);
+            });
+            
+            canvas.addEventListener('mousemove', (e) => {
+                if (isScratching) {
+                    const rect = canvas.getBoundingClientRect();
+                    scratch(e.clientX - rect.left, e.clientY - rect.top);
+                }
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                isScratching = false;
+            });
+            
+            canvas.addEventListener('mouseleave', () => {
+                isScratching = false;
+            });
+            
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                isScratching = true;
+                const rect = canvas.getBoundingClientRect();
+                const touch = e.touches[0];
+                scratch(touch.clientX - rect.left, touch.clientY - rect.top);
+            });
+            
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (isScratching) {
+                    const rect = canvas.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    scratch(touch.clientX - rect.left, touch.clientY - rect.top);
+                }
+            });
+            
+            canvas.addEventListener('touchend', () => {
+                isScratching = false;
+            });
+        }
+
+        function playQuoteMusic(quote) {
+            const notification = document.getElementById('musicNotification');
+            notification.classList.add('show');
+            notification.textContent = '🎵 ' + quote.author;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+            
+            // Map songs to audio players with time ranges
+            const audioMap = {
+                "Capo Plaza - Ogni Male": { 
+                    id: 'quoteMusicPlayer', 
+                    start: 74, 
+                    end: 89 
+                },
+                "Geolier - Stelle": { 
+                    id: 'geolierMusicPlayer', 
+                    start: 59, 
+                    end: 97 
+                },
+                "Andrea Laszlo De Simone - Fiore Mio": { 
+                    id: 'andreaMusicPlayer', 
+                    start: 59, 
+                    end: 80 
+                },
+                "Modà - E Non C'è Mai Una Fine": { 
+                    id: 'modaMusicPlayer', 
+                    start: 57, 
+                    end: 113 
+                }
+            };
+            
+            const config = audioMap[quote.author];
+            if (!config) {
+                console.log('No audio config for:', quote.author);
+                return;
+            }
+            
+            const audio = document.getElementById(config.id);
+            if (!audio) {
+                console.log('Audio element not found:', config.id);
+                return;
+            }
+            
+            // Stop all other audio
+            Object.values(audioMap).forEach(cfg => {
+                const otherAudio = document.getElementById(cfg.id);
+                if (otherAudio && otherAudio !== audio) {
+                    otherAudio.pause();
+                    otherAudio.currentTime = 0;
+                }
+            });
+            
+            // Set start time and play
+            audio.currentTime = config.start;
+            audio.volume = 1;
+            audio.muted = false;
+            
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Playing:', quote.author);
+                }).catch(e => {
+                    console.log('Play error:', e);
+                    // Try again after user interaction
+                    setTimeout(() => {
+                        audio.play().catch(e2 => console.log('Retry error:', e2));
+                    }, 500);
+                });
+            }
+            
+            // Monitor and stop at end time
+            const checkInterval = setInterval(() => {
+                if (audio.currentTime >= config.end) {
+                    audio.pause();
+                    audio.currentTime = config.start;
+                    clearInterval(checkInterval);
+                    console.log('Song section ended');
+                }
+            }, 100);
+            
+            // Store interval to clear later if needed
+            audio.dataset.checkInterval = checkInterval;
+        }
+
+        function updateTimer() {
+            const startDate = new Date('2025-01-01T00:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = now - startDate;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            const display = document.getElementById('timerDisplay');
+            if (display) {
+                display.textContent = days + ' : ' + String(hours).padStart(2, '0') + ' : ' + String(minutes).padStart(2, '0') + ' : ' + String(seconds).padStart(2, '0');
+            }
         }
 
         function startSlideshow() {
@@ -1366,70 +1532,19 @@
         }
 
         function createConfetti() {
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 100; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = ['#ff69b4', '#ff1493', '#ff6b9d', '#c71585'][Math.floor(Math.random() * 4)];
+                    confetti.style.background = ['#ff69b4', '#ff1493', '#ff6b9d', '#c71585', '#FFD700', '#FF69B4'][Math.floor(Math.random() * 6)];
                     confetti.style.animationDelay = Math.random() * 2 + 's';
                     document.body.appendChild(confetti);
                     
                     setTimeout(() => confetti.remove(), 3000);
-                }, i * 50);
+                }, i * 30);
             }
         }
-
-        // Audio player with loop at 2:40
-        document.addEventListener('DOMContentLoaded', () => {
-            const audioPlayer = document.getElementById('backgroundMusic');
-            if (!audioPlayer) return;
-            
-            const loopTime = 160; // 2:40 in seconds
-            
-            audioPlayer.addEventListener('timeupdate', () => {
-                if (audioPlayer.currentTime >= loopTime) {
-                    audioPlayer.currentTime = 0;
-                }
-            });
-            
-            // Play on user interaction
-            document.addEventListener('click', () => {
-                if (audioPlayer.paused) {
-                    audioPlayer.play().catch(e => console.log('Play error:', e));
-                }
-            }, { once: true });
-        });
     </script>
-
-    <!-- Background Music -->
-    <audio id="backgroundMusic" style="display: none;">
-        <source src="musica.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <!-- Quote Music (Capo Plaza) -->
-    <audio id="quoteMusicPlayer" style="display: none;">
-        <source src="song1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <!-- Quote Music (Geolier) -->
-    <audio id="geolierMusicPlayer" style="display: none;">
-        <source src="song2.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <!-- Quote Music (Andrea) -->
-    <audio id="andreaMusicPlayer" style="display: none;">
-        <source src="song3.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <!-- Quote Music (Modà) -->
-    <audio id="modaMusicPlayer" style="display: none;">
-        <source src="song4.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
 </body>
 </html>
